@@ -67,6 +67,7 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+    input("\nPress any key to exit...")
     # while True:
     #     if input("\nWant to search for another one? (yes): ").lower() == "yes":
     #         asyncio.run(main())
