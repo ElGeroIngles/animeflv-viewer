@@ -11,9 +11,9 @@ async def main():
     global bar_finished
 
     # Pedir al usuario el nombre del anime
-    title = input("Name of the anime: ")
+    title = input("\nName of the anime: ")
 
-    print("Searching for animes with a similar name...")
+    print("\nSearching for animes with a similar name...")
 
     # Primera búsqueda
     import aiohttp
@@ -38,11 +38,11 @@ async def main():
         print(f"[{i}] {x['title']}")
     
     # get what anime the user wants to see:
-    index = int(input(""))
+    index = int(input("\nWhich is the one you want?: "))
     anime = requests.get(f"https://animeflv.ahmedrangel.com/api/anime/{out[index]['slug']}").json()
     
     # ask for the episode
-    what_episode = int(input(f"Select episode ({anime['data']['episodes'][0]['number']}-{anime['data']['episodes'][-1]['number']}): "))
+    what_episode = int(input(f"\nSelect episode ({anime['data']['episodes'][0]['number']}-{anime['data']['episodes'][-1]['number']}): "))
     
     # get the url of the episode
     episode_slug = next((episodio['slug'] for episodio in anime['data']['episodes'] if episodio['number'] == what_episode), None)
@@ -51,6 +51,7 @@ async def main():
     episode = requests.get(f"https://animeflv.ahmedrangel.com/api/anime/episode/{episode_slug}").json()
 
     # print all the links to see the episode
+    print("\nHere are all the links aviable for that episode:")
     for x in episode['data']['servers']:
         print(f"\n{x['name']}:")
 
@@ -64,7 +65,8 @@ async def main():
         except:
             pass
 
-
-
 if __name__ == "__main__":
     asyncio.run(main())
+    # while True:
+    #     if input("\nWant to search for another one? (yes): ").lower() == "yes":
+    #         asyncio.run(main())
