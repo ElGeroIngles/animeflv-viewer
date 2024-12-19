@@ -11,7 +11,7 @@ This python program that allows you to search for any anime of [AnimeFLV](https:
 
 ## Install & Usage
 
-First, clone the github repo in your PC and execute the .exe:
+First, clone the github repo in your PC:
 ```
 git clone https://github.com/ElGeroIngles/animeflv-viewer.git
 ```
@@ -19,7 +19,7 @@ Then navigate into the `src` folder and ejecute the .exe file or run it through 
 ```
 ./src/"AnimeFLV Viewer.exe"
 ```
-Then, just search for the anime and its episode as shown (image created using [carbon](https://carbon.now.sh/)):
+Finally, just enter the prompts as shown (image created using [carbon](https://carbon.now.sh/)):
 
 ![img](https://i.imgur.com/65k2uzH.png)
 
