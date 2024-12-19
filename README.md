@@ -19,7 +19,7 @@ Then navigate into the `src` folder and ejecute the .exe file or run it through 
 ```
 ./src/"AnimeFLV Viewer.exe"
 ```
-Then, just search for the anime and its episode as shown:
+Then, just search for the anime and its episode as shown (image created using [carbon](https://carbon.now.sh/)):
 
 ![img](https://i.imgur.com/65k2uzH.png)
 
