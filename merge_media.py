@@ -2,16 +2,15 @@ import aiohttp
 import asyncio
 import sys
 
-# Variables globales para el progreso
 global total
 global current
 global out
 out = []
 total = 0
 current = 0
-bar_finished = False  # Para detener la barra de carga al final
+bar_finished = False
 
-# Barra de carga asincrónica
+# loading bar
 async def update_loading_bar(description="Progress"):
     global current, total, bar_finished
     animation = ['|', '/', '*', '\\']
@@ -31,15 +30,14 @@ async def update_loading_bar(description="Progress"):
             bar_finished = True
             sys.stdout.write(progress_message[:-1])
             sys.stdout.flush()
-        await asyncio.sleep(0.05)  # Mayor frecuencia para más fluidez
+        await asyncio.sleep(0.05)
 
-    # Completar la barra al final
+    # finish the loading bar
     sys.stdout.write(progress_message + "\n")
 
-# Función principal para manejar la recopilación
 async def main(list, name):
     global total
-    # Obtener el total de resultados esperados
+    # get the total number of episodes expected
     total = len(list['data']['media'])
     n_pages = list['data']['foundPages']
 
@@ -53,14 +51,14 @@ async def main(list, name):
 
     await merge(list, name)
 
-# Función asincrónica para combinar resultados
+# merge all results in a single array
 async def merge(list, name):
     global current
     async with aiohttp.ClientSession() as session:
         for x in list['data']['media']:
             out.append(x)
-            current = len(out)  # Actualizar el progreso actual
-            await asyncio.sleep(0)  # Liberar control para la barra de carga
+            current = len(out)
+            await asyncio.sleep(0)
         if list['data']['hasNextPage']:
             next_page = list['data']['currentPage'] + 1
             next_url = f"https://animeflv.ahmedrangel.com/api/search?query={name}&page={next_page}"

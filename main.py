@@ -3,45 +3,44 @@ import sys
 from merge_media import main as merge_main, update_loading_bar, out, bar_finished
 import requests
 
-# Configuración de la salida estándar para caracteres UTF-8
+# make the system support UTF-8
 sys.stdout.reconfigure(encoding='utf-8')
 
-# Función principal con barra de carga
 async def main():
     global bar_finished
 
-    # Obtener el título del anime
+    # get the anime name and the data for it
     await get_title()
 
-    # Crear tarea para la barra de carga
+    # set up a task for the loading bar
     task = asyncio.create_task(update_loading_bar())
 
-    # Ejecutar la recopilación principal (asincrónica)
+    # merge all animes that match the given name into a single array
     await merge_main(searchs, title)
 
-    # Finalizar la barra de carga
+    # finish the loading bar
     bar_finished = True
-    await task  # Esperar que la barra termine correctamente
+    await task  # wait for the bar to finish properly
 
-    # Mostrar resultados al final
+    # show results
     print("\nAnime found:")
     for i, x in enumerate(out):
         print(f"[{i}] {x['title']}")
 
-    # Obtener el anime seleccionado por el usuario
+    # select which anime
     index = int(input("\nWhich is the one you want?: "))
     anime = requests.get(f"https://animeflv.ahmedrangel.com/api/anime/{out[index]['slug']}").json()
 
-    # Pedir al usuario el episodio
+    # which episode
     what_episode = int(input(f"\nSelect episode ({anime['data']['episodes'][0]['number']}-{anime['data']['episodes'][-1]['number']}): "))
 
-    # Obtener el slug del episodio
+    # get the slug for it
     episode_slug = next((episodio['slug'] for episodio in anime['data']['episodes'] if episodio['number'] == what_episode), None)
 
-    # Obtener los datos del episodio
+    # get the data for that episode
     episode = requests.get(f"https://animeflv.ahmedrangel.com/api/anime/episode/{episode_slug}").json()
 
-    # Mostrar todos los enlaces disponibles para el episodio
+    # show all links for it
     print("\nHere are all the links available for that episode:")
     for x in episode['data']['servers']:
         print(f"\n{x['name']}:")
@@ -72,7 +71,7 @@ async def get_title():
                     if response.status == 200:
                         searchs = await response.json()
                         if searchs:
-                            return  # Salir del bucle si la búsqueda fue exitosa
+                            return
                         else:
                             print("\nCouldn't find any animes with that name, please try again.")
                     else:
