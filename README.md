@@ -21,7 +21,7 @@ Then navigate into the `src` folder and ejecute the .exe file or run it through 
 ```
 Then, just search for the anime and its episode as shown:
 
-[!img](https://i.imgur.com/65k2uzH.png)
+![img](https://i.imgur.com/65k2uzH.png)
 
 ## FAQ
 
