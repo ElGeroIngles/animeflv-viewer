@@ -10,17 +10,8 @@ sys.stdout.reconfigure(encoding='utf-8')
 async def main():
     global bar_finished
 
-    # Pedir al usuario el nombre del anime
-    title = input("\nName of the anime: ")
-
-    print("\nSearching for animes with a similar name...")
-
-    # Primera búsqueda
-    import aiohttp
-    async with aiohttp.ClientSession() as session:
-        url = f"https://animeflv.ahmedrangel.com/api/search?query={title}&page=1"
-        async with session.get(url) as response:
-            searchs = await response.json()
+    # Obtener el título del anime
+    await get_title()
 
     # Crear tarea para la barra de carga
     task = asyncio.create_task(update_loading_bar())
@@ -36,38 +27,59 @@ async def main():
     print("\nAnime found:")
     for i, x in enumerate(out):
         print(f"[{i}] {x['title']}")
-    
-    # get what anime the user wants to see:
+
+    # Obtener el anime seleccionado por el usuario
     index = int(input("\nWhich is the one you want?: "))
     anime = requests.get(f"https://animeflv.ahmedrangel.com/api/anime/{out[index]['slug']}").json()
-    
-    # ask for the episode
+
+    # Pedir al usuario el episodio
     what_episode = int(input(f"\nSelect episode ({anime['data']['episodes'][0]['number']}-{anime['data']['episodes'][-1]['number']}): "))
-    
-    # get the url of the episode
+
+    # Obtener el slug del episodio
     episode_slug = next((episodio['slug'] for episodio in anime['data']['episodes'] if episodio['number'] == what_episode), None)
-    
-    # get the episode
+
+    # Obtener los datos del episodio
     episode = requests.get(f"https://animeflv.ahmedrangel.com/api/anime/episode/{episode_slug}").json()
 
-    # print all the links to see the episode
-    print("\nHere are all the links aviable for that episode:")
+    # Mostrar todos los enlaces disponibles para el episodio
+    print("\nHere are all the links available for that episode:")
     for x in episode['data']['servers']:
         print(f"\n{x['name']}:")
 
         try:
             print(f"Download: {x['download']}")
-        except:
+        except KeyError:
             pass
 
         try:
             print(f"Embed: {x['embed']}")
-        except:
+        except KeyError:
             pass
+
+async def get_title():
+    global title
+    global searchs
+
+    while True:
+        title = input("\nName of the anime: ")
+        print("\nSearching for animes with a similar name...")
+
+        import aiohttp
+        async with aiohttp.ClientSession() as session:
+            try:
+                url = f"https://animeflv.ahmedrangel.com/api/search?query={title}&page=1"
+                async with session.get(url) as response:
+                    if response.status == 200:
+                        searchs = await response.json()
+                        if searchs:
+                            return  # Salir del bucle si la búsqueda fue exitosa
+                        else:
+                            print("\nCouldn't find any animes with that name, please try again.")
+                    else:
+                        print(f"\nCouldn't find any animes with that name, please try again.")
+            except Exception as e:
+                print(f"\nAn error occurred: {e}. Please try again.")
 
 if __name__ == "__main__":
     asyncio.run(main())
     input("\nPress any key to exit...")
-    # while True:
-    #     if input("\nWant to search for another one? (yes): ").lower() == "yes":
-    #         asyncio.run(main())
