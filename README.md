@@ -1,7 +1,7 @@
 
 # AnimeFLV Viewer
 
-This python program that allows you to search for any anime of [AnimeFLV](https://www3.animeflv.net/).
+This python program allows you to search for any anime episode from [AnimeFLV](https://www3.animeflv.net/) and get its server links.
 
 ## Author
 [@ElGeroIngles](https://github.com/ElGeroIngles)
