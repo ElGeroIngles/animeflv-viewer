@@ -16,7 +16,7 @@ First, you would need to have python installed in your pc, then run the followin
 git clone https://github.com/ElGeroIngles/animeflv-viewer.git
 cd animeflv-viewer
 cd src
-# Optional, run it in a venv:
+# Optional, run it on a venv:
 # python3 -m venv .venv
 # Windows:
 # .venv\Scripts\activate
