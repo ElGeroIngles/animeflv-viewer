@@ -43,6 +43,7 @@ A: It works on all 3 major operating systems, so don't worry.
 
 * [ ] Make this a website.
 * [ ] Separate anime output into pages.
+* [ ] Be able to download episodes directly.
 
 ## Bug Report/Suggestions
 If you have found any bugs or have any suggestion, please create an issue [here](https://github.com/ElGeroIngles/animeflv-viewer/issues).
